@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
 
@@ -7,9 +7,7 @@ import { Container, ButtonLogo, Logo, TextCount, ButtonCart } from './styles';
 
 import logo from '../../assets/logo.png';
 
-export default function Header({ navigation }) {
-  const cartSize = useSelector((state) => state.cart.length);
-
+const Header = ({ cartSize, navigation }) => {
   const goToHome = (nav) => {
     nav.navigate('Home');
   };
@@ -30,8 +28,15 @@ export default function Header({ navigation }) {
       </ButtonCart>
     </Container>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  cartSize: state.cart.length,
+});
+
+export default connect(mapStateToProps)(Header);
 
 Header.propTypes = {
+  cartSize: PropTypes.number.isRequired,
   navigation: PropTypes.objectOf(PropTypes.func).isRequired,
 };
